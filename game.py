@@ -44,8 +44,15 @@ class Game:
         while True:
             self.smallScreen.blit(self.assets['background'], (0,0)) 
 
+            # SMOOTH CAMERA MOVING
+            # CHANGE DIVIDER TO MAKE IT LESS SMOOTH
             self.scroll[0] += (self.player.rect().centerx - self.smallScreen.get_width() / 2 - self.scroll[0]) / 30
             self.scroll[1] += (self.player.rect().centery - self.smallScreen.get_height() / 2 - self.scroll[1]) / 30
+            
+            # NOT SMOOTH CAMERA MOVING
+            #self.scroll[0] = self.player.rect().centerx - self.smallScreen.get_width() / 2
+            #self.scroll[1] = self.player.rect().centery - self.smallScreen.get_height() / 2
+
             render_scroll = (int(self.scroll[0]), int(self.scroll[1]))
 
             self.clouds.update()
