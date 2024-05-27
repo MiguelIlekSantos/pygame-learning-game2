@@ -50,7 +50,7 @@ class Game:
         
         self.tilemap = Tilemap(self, tile_size=16)
         
-        self.load_level(2)
+        self.load_level(0)
         
     def load_level(self, map_id):
         self.tilemap.load('data/maps/' + str(map_id) + '.json')
@@ -63,7 +63,6 @@ class Game:
         for spawner in self.tilemap.extract([('spawners', 0), ('spawners', 1)]):
             if spawner['variant'] == 0:
                 self.player.pos = spawner['pos']
-                self.player.air_time = 0
             else:
                 self.enemies.append(Enemy(self, spawner['pos'], (8, 15)))
             
@@ -81,7 +80,7 @@ class Game:
             if self.dead:
                 self.dead += 1
                 if self.dead > 40:
-                    self.load_level(2)
+                    self.load_level(0)
             
             self.scroll[0] += (self.player.rect().centerx - self.display.get_width() / 2 - self.scroll[0]) / 30
             self.scroll[1] += (self.player.rect().centery - self.display.get_height() / 2 - self.scroll[1]) / 30
@@ -148,18 +147,18 @@ class Game:
                     pygame.quit()
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_a:
+                    if event.key == pygame.K_LEFT:
                         self.movement[0] = True
-                    if event.key == pygame.K_d:
+                    if event.key == pygame.K_RIGHT:
                         self.movement[1] = True
-                    if event.key == pygame.K_SPACE:
+                    if event.key == pygame.K_UP:
                         self.player.jump()
-                    if event.key == pygame.K_e:
+                    if event.key == pygame.K_x:
                         self.player.dash()
                 if event.type == pygame.KEYUP:
-                    if event.key == pygame.K_a:
+                    if event.key == pygame.K_LEFT:
                         self.movement[0] = False
-                    if event.key == pygame.K_d:
+                    if event.key == pygame.K_RIGHT:
                         self.movement[1] = False
             
             self.screen.blit(pygame.transform.scale(self.display, self.screen.get_size()), (0, 0))
